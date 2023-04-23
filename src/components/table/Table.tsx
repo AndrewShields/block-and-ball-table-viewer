@@ -34,7 +34,7 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 			params: { worldId: "World0" }
 		}).then((response: any) => {
 			// Populate rows
-			const _rows: IWorldInfo[] = response;
+			const _rows: IWorldInfo[] = response.data;
 			SetRows(_rows);
 
 			// Populate columns
