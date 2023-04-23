@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosRequestHeaders } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 export interface IHttpGETProps {
 	endpoint: string;
@@ -42,7 +42,7 @@ export default class HttpClient implements IHttpClient {
 
 	post<T>(parameters: IHttpPOSTProps): Promise<T> {
 		return new Promise<T>((resolve, reject) => {
-			const {endpoint, token, body } = parameters;
+			const {endpoint, /*token,*/ body } = parameters;
 
 			const headers = { "Content-Type": "application/json" };
 
