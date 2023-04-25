@@ -16,7 +16,7 @@ export interface IHttpClient {
 	get<T>(parameters: IHttpGETProps): Promise<T>;
 }
 
-const BASE_URL = "https://fnappblockandball.azurewebsites.net/api/FnBlockAndBall/v1/";
+const BASE_URL = "https://fnappblockandball.azurewebsites.net/api/v1/";
 
 export default class HttpClient implements IHttpClient {
 	get<T>(parameters: IHttpGETProps): Promise<T> {
