@@ -10,6 +10,7 @@ export interface ITableProps {
 
 interface IWorldInfo {
 	ApiVersion: number,
+	ClientVersion: number,
 	PartitionKey: string,
 	RowKey: string,
 	Level0: number, Level1: number, Level2: number, Level3: number, Level4: number, Level5: number, Level6: number, Level7: number, Level8: number, Level9: number,
@@ -41,7 +42,7 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 					headerName: key
 				}
 
-				if (key === "ApiVersion") {
+				if (key === "ApiVersion" || key === "ClientVersion") {
 					columnDef.type = "number";
 				} else if (key.startsWith("Level")) {
 					columnDef.type = "number";
@@ -66,12 +67,14 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 		function getColumnIndex(key: string): string {
 			if (key === "ApiVersion") {
 				return "0";
-			} else if (key === "PartitionKey") {
+			} else if (key === "ClientVersion") {
 				return "1";
-			} else if (key === "RowKey") {
+			} else if (key === "PartitionKey") {
 				return "2";
+			} else if (key === "RowKey") {
+				return "3";
 			} else if (key === "Timestamp") {
-				return "54";
+				return "55";
 			}
 
 			if (!key.startsWith("Level")) {
@@ -126,7 +129,7 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 			};
 
 			// Must offset by known columns before this one
-			const BASE_COLUMN_INDEX = 3;
+			const BASE_COLUMN_INDEX = 4;
 
 			const mappedIndex = mapLevelKeyToOrderIndex[key];
 			if (mappedIndex === undefined) {
@@ -149,7 +152,7 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 		});
 
 		// Debug
-		//const DEBUG_DATA = [{"ApiVersion":777,"PartitionKey":"World0_LOCAL","RowKey":"Player0","Level0":6.0,"Level1":48.94,"Level2":22.72,"Level3":-1.0,"Level4":-1.0,"Level5":-1.0,"Level6":-1.0,"Level7":-1.0,"Level8":-1.0,"Level9":-1.0,"Level10":-1.0,"Level11":-1.0,"Level12":-1.0,"Level13":2.91,"Level14":-1.0,"Level15":7.76,"Level16":123.47,"Level17":-1.0,"Level18":-1.0,"Level19":-1.0,"Level20":51.47,"Level21":-1.0,"Level22":-1.0,"Level23":-1.0,"Level24":-1.0,"Level25":-1.0,"Level26":-1.0,"Level27":-1.0,"Level28":-1.0,"Level29":-1.0,"Level30":-1.0,"Level31":-1.0,"Level32":-1.0,"Level33":-1.0,"Level34":-1.0,"Level35":-1.0,"Level36":-1.0,"Level37":-1.0,"Level38":-1.0,"Level39":-1.0,"Level40":-1.0,"Level41":-1.0,"Level42":-1.0,"Level43":-1.0,"Level44":-1.0,"Level45":-1.0,"Level46":-1.0,"Level47":-1.0,"Level48":-1.0,"Level49":-1.0,"Level50":-1.0,"Timestamp":"2023-04-23T22:40:50.542146+00:00","ETag":{}},{"ApiVersion":777,"PartitionKey":"World0_LOCAL","RowKey":"Player1","Level0":6.0,"Level1":-1.0,"Level2":-1.0,"Level3":-1.0,"Level4":-1.0,"Level5":-1.0,"Level6":-1.0,"Level7":-1.0,"Level8":-1.0,"Level9":-1.0,"Level10":-1.0,"Level11":-1.0,"Level12":-1.0,"Level13":2.91,"Level14":-1.0,"Level15":-1.0,"Level16":-1.0,"Level17":-1.0,"Level18":-1.0,"Level19":-1.0,"Level20":-1.0,"Level21":-1.0,"Level22":-1.0,"Level23":-1.0,"Level24":-1.0,"Level25":-1.0,"Level26":-1.0,"Level27":-1.0,"Level28":-1.0,"Level29":-1.0,"Level30":-1.0,"Level31":-1.0,"Level32":-1.0,"Level33":-1.0,"Level34":-1.0,"Level35":-1.0,"Level36":-1.0,"Level37":-1.0,"Level38":-1.0,"Level39":-1.0,"Level40":-1.0,"Level41":-1.0,"Level42":-1.0,"Level43":-1.0,"Level44":-1.0,"Level45":-1.0,"Level46":-1.0,"Level47":-1.0,"Level48":-1.0,"Level49":-1.0,"Level50":-1.0,"Timestamp":"2023-04-09T05:13:45.1953457+00:00","ETag":{}},{"ApiVersion":777,"PartitionKey":"World0_LOCAL","RowKey":"Player2","Level0":10.0,"Level1":20.0,"Level2":-1.0,"Level3":-1.0,"Level4":-1.0,"Level5":-1.0,"Level6":-1.0,"Level7":-1.0,"Level8":-1.0,"Level9":-1.0,"Level10":-1.0,"Level11":-1.0,"Level12":-1.0,"Level13":-1.0,"Level14":-1.0,"Level15":-1.0,"Level16":-1.0,"Level17":-1.0,"Level18":-1.0,"Level19":-1.0,"Level20":-1.0,"Level21":-1.0,"Level22":-1.0,"Level23":-1.0,"Level24":-1.0,"Level25":-1.0,"Level26":-1.0,"Level27":-1.0,"Level28":-1.0,"Level29":-1.0,"Level30":-1.0,"Level31":-1.0,"Level32":-1.0,"Level33":-1.0,"Level34":-1.0,"Level35":-1.0,"Level36":-1.0,"Level37":-1.0,"Level38":-1.0,"Level39":-1.0,"Level40":-1.0,"Level41":-1.0,"Level42":-1.0,"Level43":-1.0,"Level44":-1.0,"Level45":-1.0,"Level46":-1.0,"Level47":-1.0,"Level48":-1.0,"Level49":-1.0,"Level50":-1.0,"Timestamp":"2023-04-12T04:15:06.2952077+00:00","ETag":{}}];
+		//const DEBUG_DATA = [{"ApiVersion":1,"ClientVersion":0.15,"PartitionKey":"World0","RowKey":"Player0","Level0":5.08,"Level1":-1.0,"Level2":-1.0,"Level3":-1.0,"Level4":-1.0,"Level5":-1.0,"Level6":-1.0,"Level7":-1.0,"Level8":-1.0,"Level9":-1.0,"Level10":-1.0,"Level11":-1.0,"Level12":-1.0,"Level13":4.33,"Level14":-1.0,"Level15":5.43,"Level16":-1.0,"Level17":-1.0,"Level18":-1.0,"Level19":-1.0,"Level20":-1.0,"Level21":-1.0,"Level22":-1.0,"Level23":-1.0,"Level24":-1.0,"Level25":-1.0,"Level26":-1.0,"Level27":-1.0,"Level28":-1.0,"Level29":-1.0,"Level30":-1.0,"Level31":-1.0,"Level32":-1.0,"Level33":-1.0,"Level34":-1.0,"Level35":-1.0,"Level36":-1.0,"Level37":-1.0,"Level38":-1.0,"Level39":-1.0,"Level40":-1.0,"Level41":-1.0,"Level42":-1.0,"Level43":-1.0,"Level44":-1.0,"Level45":-1.0,"Level46":-1.0,"Level47":-1.0,"Level48":-1.0,"Level49":-1.0,"Level50":-1.0,"Timestamp":"2023-04-25T03:41:26.6842904+00:00","ETag":{}}];
 		//populateTable(DEBUG_DATA);
 	}, []);
 
