@@ -24,9 +24,6 @@ interface IWorldInfo {
 }
 
 export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) => {
-
-	const IS_DEBUG = false;
-
 	const [rows, SetRows] = React.useState<any[]>([]);
 	const [columns, SetColumns] = React.useState<GridColDef[]>([]);
 
@@ -159,7 +156,7 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 			return (BASE_COLUMN_INDEX + mappedIndex).toString();
 		}
 
-		if (!IS_DEBUG) {
+		if (true) {
 			// Get cloud data for all players
 			new HttpClient().get({
 				endpoint: "players/",
