@@ -24,6 +24,9 @@ interface IWorldInfo {
 }
 
 export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) => {
+
+	const IS_DEBUG = false;
+
 	const [rows, SetRows] = React.useState<any[]>([]);
 	const [columns, SetColumns] = React.useState<GridColDef[]>([]);
 
@@ -44,9 +47,25 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 
 				if (key === "ApiVersion" || key === "ClientVersion") {
 					columnDef.type = "number";
+				} else if (key === "RowKey") {
+					columnDef.width = 500;
 				} else if (key.startsWith("Level")) {
 					columnDef.type = "number";
-					columnDef.valueFormatter = (params) => params.value === -1 ? "-" : params.value.toString();
+					columnDef.valueFormatter = (params) => {
+						if (params.value === -1) {
+							return "-";
+						} else {
+							const minutes = Math.floor(params.value / 60);
+							const seconds = (params.value - (minutes * 60)).toFixed(2);
+
+							if (minutes > 0) {
+								// 00:00.00
+								return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(5, "0")}`;
+							}
+							// 00.00
+							return `${seconds}`;
+						}
+					};
 				} else if (key === "Timestamp") {
 					columnDef.valueFormatter = (params) => params.value.split("T")[0];
 				} else if (key === "ETag") {
@@ -140,20 +159,22 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 			return (BASE_COLUMN_INDEX + mappedIndex).toString();
 		}
 
-		// Get cloud data for all players
-		new HttpClient().get({
-			endpoint: "players/",
-			token: null,
-			params: { worldId: "World0" }
-		}).then((response: any) => {
-			populateTable(response.data);
-		}).catch((error) => {
-			//
-		});
-
-		// Debug
-		//const DEBUG_DATA = [{"ApiVersion":1,"ClientVersion":0.15,"PartitionKey":"World0","RowKey":"Player0","Level0":5.08,"Level1":-1.0,"Level2":-1.0,"Level3":-1.0,"Level4":-1.0,"Level5":-1.0,"Level6":-1.0,"Level7":-1.0,"Level8":-1.0,"Level9":-1.0,"Level10":-1.0,"Level11":-1.0,"Level12":-1.0,"Level13":4.33,"Level14":-1.0,"Level15":5.43,"Level16":-1.0,"Level17":-1.0,"Level18":-1.0,"Level19":-1.0,"Level20":-1.0,"Level21":-1.0,"Level22":-1.0,"Level23":-1.0,"Level24":-1.0,"Level25":-1.0,"Level26":-1.0,"Level27":-1.0,"Level28":-1.0,"Level29":-1.0,"Level30":-1.0,"Level31":-1.0,"Level32":-1.0,"Level33":-1.0,"Level34":-1.0,"Level35":-1.0,"Level36":-1.0,"Level37":-1.0,"Level38":-1.0,"Level39":-1.0,"Level40":-1.0,"Level41":-1.0,"Level42":-1.0,"Level43":-1.0,"Level44":-1.0,"Level45":-1.0,"Level46":-1.0,"Level47":-1.0,"Level48":-1.0,"Level49":-1.0,"Level50":-1.0,"Timestamp":"2023-04-25T03:41:26.6842904+00:00","ETag":{}}];
-		//populateTable(DEBUG_DATA);
+		if (!IS_DEBUG) {
+			// Get cloud data for all players
+			new HttpClient().get({
+				endpoint: "players/",
+				token: null,
+				params: { worldId: "World0" }
+			}).then((response: any) => {
+				populateTable(response.data);
+			}).catch((error) => {
+				//
+			});
+		} else {
+			// Debug
+			const DEBUG_DATA = [{"ApiVersion":1,"ClientVersion":0.16,"PartitionKey":"World0","RowKey":"Mac_Andrew’s MacBook Air_84C0D352-53D7-5948-8E18-985A0FB59F7E","Level0":1.23,"Level1":12.34,"Level2":1234.56,"Level3":-1.0,"Level4":-1.0,"Level5":-1.0,"Level6":-1.0,"Level7":-1.0,"Level8":-1.0,"Level9":-1.0,"Level10":-1.0,"Level11":-1.0,"Level12":-1.0,"Level13":2.51,"Level14":-1.0,"Level15":6.7,"Level16":1800,"Level17":-1.0,"Level18":-1.0,"Level19":-1.0,"Level20":123.45,"Level21":-1.0,"Level22":-1.0,"Level23":-1.0,"Level24":-1.0,"Level25":-1.0,"Level26":-1.0,"Level27":-1.0,"Level28":-1.0,"Level29":-1.0,"Level30":-1.0,"Level31":-1.0,"Level32":-1.0,"Level33":-1.0,"Level34":-1.0,"Level35":-1.0,"Level36":-1.0,"Level37":-1.0,"Level38":-1.0,"Level39":-1.0,"Level40":-1.0,"Level41":-1.0,"Level42":-1.0,"Level43":-1.0,"Level44":-1.0,"Level45":-1.0,"Level46":-1.0,"Level47":-1.0,"Level48":-1.0,"Level49":-1.0,"Level50":-1.0,"Timestamp":"2023-04-28T03:03:20.9401379+00:00","ETag":{}},{"ApiVersion":1,"ClientVersion":0.15,"PartitionKey":"World0","RowKey":"PC_ANDREW-ASUS_14cc113631afa34b6aa11947cbaa019d2375fdf1","Level0":9.21,"Level1":-1.0,"Level2":-1.0,"Level3":-1.0,"Level4":-1.0,"Level5":-1.0,"Level6":-1.0,"Level7":-1.0,"Level8":-1.0,"Level9":-1.0,"Level10":-1.0,"Level11":-1.0,"Level12":-1.0,"Level13":2.33,"Level14":-1.0,"Level15":3.85,"Level16":-1.0,"Level17":-1.0,"Level18":-1.0,"Level19":-1.0,"Level20":-1.0,"Level21":-1.0,"Level22":-1.0,"Level23":-1.0,"Level24":-1.0,"Level25":-1.0,"Level26":-1.0,"Level27":-1.0,"Level28":-1.0,"Level29":-1.0,"Level30":-1.0,"Level31":-1.0,"Level32":-1.0,"Level33":-1.0,"Level34":-1.0,"Level35":-1.0,"Level36":-1.0,"Level37":-1.0,"Level38":-1.0,"Level39":-1.0,"Level40":-1.0,"Level41":-1.0,"Level42":-1.0,"Level43":-1.0,"Level44":-1.0,"Level45":-1.0,"Level46":-1.0,"Level47":-1.0,"Level48":-1.0,"Level49":-1.0,"Level50":-1.0,"Timestamp":"2023-04-28T02:51:01.1204041+00:00","ETag":{}},{"ApiVersion":1,"ClientVersion":0.16,"PartitionKey":"World0","RowKey":"Shields_iPhone_70A19FC6-1265-44DD-9432-C46C7FC79C6E","Level0":8.32,"Level1":20.19,"Level2":11.7,"Level3":-1.0,"Level4":-1.0,"Level5":-1.0,"Level6":-1.0,"Level7":-1.0,"Level8":-1.0,"Level9":-1.0,"Level10":-1.0,"Level11":-1.0,"Level12":-1.0,"Level13":3.16,"Level14":-1.0,"Level15":3.95,"Level16":10.07,"Level17":6.53,"Level18":-1.0,"Level19":43.3,"Level20":18.87,"Level21":-1.0,"Level22":7.11,"Level23":-1.0,"Level24":-1.0,"Level25":-1.0,"Level26":-1.0,"Level27":-1.0,"Level28":-1.0,"Level29":-1.0,"Level30":-1.0,"Level31":-1.0,"Level32":-1.0,"Level33":-1.0,"Level34":-1.0,"Level35":-1.0,"Level36":-1.0,"Level37":-1.0,"Level38":-1.0,"Level39":-1.0,"Level40":-1.0,"Level41":-1.0,"Level42":-1.0,"Level43":-1.0,"Level44":-1.0,"Level45":-1.0,"Level46":-1.0,"Level47":-1.0,"Level48":-1.0,"Level49":-1.0,"Level50":-1.0,"Timestamp":"2023-04-28T03:53:58.754059+00:00","ETag":{}}];
+			populateTable(DEBUG_DATA);
+		}
 	}, []);
 
 	return (
