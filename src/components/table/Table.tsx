@@ -19,7 +19,7 @@ interface IWorldInfo {
 	Level30: number, Level31: number, Level32: number, Level33: number, Level34: number, Level35: number, Level36: number, Level37: number, Level38: number, Level39: number,
 	Level40: number, Level41: number, Level42: number, Level43: number, Level44: number, Level45: number, Level46: number, Level47: number, Level48: number, Level49: number,
 	Level50: number,
-	Timestamp: string,
+	Timestamp: string | null,
 	ETag: {}
 }
 
@@ -70,7 +70,7 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 						}
 					};
 				} else if (key === "Timestamp") {
-					columnDef.valueFormatter = (params) => params.value.split("T")[0];
+					columnDef.valueFormatter = (params) => params.value?.split("T")[0];
 				} else if (key === "ETag") {
 					continue;
 				}
@@ -105,51 +105,64 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 			}
 
 			// Put levels in the same order as in-game
+			let i = 0;
 			const mapLevelKeyToOrderIndex: any = {
-				Level13: 0, // DEMO_HIT_IT
-				Level0: 1, // Original
-				Level35: 2, // Baby volcano
-				Level36: 3, // Gundam
+				Level13: i++,
+				Level43: i++, // Baby pit EXPERIMENTAL ////////////////////
+				Level38: i++, // Baby V EXPERIMENTAL ////////////////////
+				Level0: i++, // Original
+				Level36: i++, // Booster
+				Level35: i++, // Baby volcano
+				Level39: i++, // Deep V EXPERIMENTAL ////////////////////
+				Level45: i++, // Zig zag summit EXPERIMENTAL ////////////////////
 
-				Level15: 4, // DEMO_FREE_IT
-				Level1: 5, // Zig zag
-				Level20: 6, // Triangles
-				Level16: 7, // Volcano
-				Level17: 8, // MaLevel launch
-				Level2: 9, // Up right, launch left
+				Level15: i++,
+				Level41: i++, // Slippery slope EXPERIMENTAL ////////////////////
+				Level42: i++, // Stairs and ramp EXPERIMENTAL ////////////////////
+				Level1: i++, // Zig zag
+				Level37: i++, // Left pit EXPERIMENTAL ////////////////////
+				Level20: i++, // Triangles
+				Level16: i++, // Volcano
+				Level17: i++, // Max launch
+				Level2: i++, // Up right, launch left
 
-				Level22: 10, // DEMO_CHIP_IT
-				Level32: 11, // Chip it, spider
-				Level3: 12, // Chip it
-				Level4: 13, // Chip it, ledges
-				Level7: 14, // Spiral
+				Level22: i++,
+				Level32: i++, // Chip it, spider
+				Level3: i++, // Chip it
+				Level4: i++, // Chip it, ledges
+				Level7: i++, // Spiral
 
-				Level23: 15, // DEMO_ROLL_IT
-				Level26: 16, // Roll it, zig zag
-				Level6: 17, // Semicircle
-				Level28: 18, // Roll it, chip it, triangles
-				Level25: 19, // Cross
-				Level34: 20, // Roll it, maze
-				Level18: 21, // Slide sniper
-				Level5: 22, // Roll it
+				Level23: i++,
+				Level26: i++, // Roll it, zig zag
+				Level6: i++, // Semicircle
+				Level44: i++, // Chip it, roll it, loss 2 EXPERIMENTAL ////////////////////
+				Level40: i++, // Chip it, roll it, loss EXPERIMENTAL ////////////////////
+				Level28: i++, // Roll it, chip it, triangles
+				Level25: i++, // Cross
+				Level34: i++, // Roll it, maze
+				Level18: i++, // Slide sniper
+				Level5: i++, // Roll it
 
-				Level24: 23, // DEMO_JUGGLE_IT
-				Level19: 24, // Slow layer drop
-				Level8: 25, // Juggle it
-				Level29: 26, // Cross octagon
-				Level33: 27, // V
-				Level9: 28, // Juggle it, island
-				Level21: 29, // Slow drop sniper
+				Level24: i++,
+				Level46: i++, // Funnel EXPERIMENTAL ////////////////////
+				Level19: i++, // Slow layer drop
+				Level27: i++, // Elephant EXPERIMENTAL ////////////////////
+				Level8: i++, // Juggle it
+				Level29: i++, // Cross octagon
+				Level33: i++, // V
+				Level9: i++, // Juggle it, island
+				Level21: i++, // Slow drop sniper
+				Level49: i++, // Hook EXPERIMENTAL ////////////////////
+				Level48: i++, // Candle EXPERIMENTAL ////////////////////
+				Level47: i++, // Asteroids EXPERIMENTAL ////////////////////
+				Level50: i++, // Rune EXPERIMENTAL ////////////////////
 
-				Level14: 30, // DEMO_LOAD_IT
-				Level30: 31, // Load and skip it
-				Level31: 32, // Load it, roll it
-				Level11: 33, // Stairs
-				Level10: 34, // Load it
-				Level12: 35, // Finale
-
-				// Dead levels
-				//Level27, // Minecraft ///////////////////// DEAD
+				Level14: i++,
+				Level31: i++, // Load it, roll it
+				Level30: i++, // Load and skip it EXPERIMENTAL ////////////////////
+				Level11: i++, // Stairs
+				Level10: i++, // Load it
+				Level12: i++, // Finale
 			};
 
 			// Must offset by known columns before this one
@@ -177,7 +190,7 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 			});
 		} else {
 			// Debug
-			const DEBUG_DATA = [{"ApiVersion":1,"ClientVersion":0.20,"PartitionKey":"World0","RowKey":"4th_iPhone_70A19FC6-1265-44DD-9432-C46C7FC79C6E","Level0":1800.0,"Level1":1800.0,"Level2":1800.0,"Level3":241.73,"Level4":53.86,"Level5":1800.0,"Level6":923.36,"Level7":1800.0,"Level8":1800.0,"Level9":1800.0,"Level10":1800.0,"Level11":1800.0,"Level12":1800.0,"Level13":18.13,"Level14":1800.0,"Level15":1800.0,"Level16":1800.0,"Level17":1800.0,"Level18":1800.0,"Level19":1800.0,"Level20":1800.0,"Level21":1800.0,"Level22":20.66,"Level23":1800.0,"Level24":1800.0,"Level25":1800.0,"Level26":1800.0,"Level27":-1.0,"Level28":1800.0,"Level29":1800.0,"Level30":1800.0,"Level31":1800.0,"Level32":41.41,"Level33":1800.0,"Level34":1800.0,"Level35":-1.0,"Level36":-1.0,"Level37":-1.0,"Level38":-1.0,"Level39":-1.0,"Level40":-1.0,"Level41":-1.0,"Level42":-1.0,"Level43":-1.0,"Level44":-1.0,"Level45":-1.0,"Level46":-1.0,"Level47":-1.0,"Level48":-1.0,"Level49":-1.0,"Level50":-1.0,"Timestamp":"2023-07-02T18:08:50.3077486+00:00","ETag":{}},{"ApiVersion":1,"ClientVersion":0.19,"PartitionKey":"World0","RowKey":"Bal_iPhone_70A19FC6-1265-44DD-9432-C46C7FC79C6E","Level0":14.65,"Level1":30.8,"Level2":27.73,"Level3":-1.0,"Level4":-1.0,"Level5":-1.0,"Level6":-1.0,"Level7":-1.0,"Level8":-1.0,"Level9":-1.0,"Level10":-1.0,"Level11":-1.0,"Level12":-1.0,"Level13":5.22,"Level14":-1.0,"Level15":32.74,"Level16":47.63,"Level17":80.72,"Level18":-1.0,"Level19":-1.0,"Level20":46.46,"Level21":-1.0,"Level22":-1.0,"Level23":-1.0,"Level24":-1.0,"Level25":-1.0,"Level26":-1.0,"Level27":-1.0,"Level28":-1.0,"Level29":-1.0,"Level30":-1.0,"Level31":-1.0,"Level32":-1.0,"Level33":-1.0,"Level34":-1.0,"Level35":-1.0,"Level36":-1.0,"Level37":-1.0,"Level38":-1.0,"Level39":-1.0,"Level40":-1.0,"Level41":-1.0,"Level42":-1.0,"Level43":-1.0,"Level44":-1.0,"Level45":-1.0,"Level46":-1.0,"Level47":-1.0,"Level48":-1.0,"Level49":-1.0,"Level50":-1.0,"Timestamp":"2023-07-02T17:37:19.6239599+00:00","ETag":{}},{"ApiVersion":1,"ClientVersion":0.19,"PartitionKey":"World0","RowKey":"First 0.19_iPhone_70A19FC6-1265-44DD-9432-C46C7FC79C6E","Level0":7.84,"Level1":23.09,"Level2":21.83,"Level3":35.65,"Level4":55.7,"Level5":86.89,"Level6":84.25,"Level7":152.28,"Level8":95.31,"Level9":273.81,"Level10":370.54,"Level11":96.39,"Level12":202.64,"Level13":2.81,"Level14":10.25,"Level15":11.8,"Level16":25.3,"Level17":58.48,"Level18":50.4,"Level19":35.14,"Level20":34.97,"Level21":74.43,"Level22":5.51,"Level23":8.54,"Level24":16.65,"Level25":51.79,"Level26":62.72,"Level27":-1.0,"Level28":46.2,"Level29":46.5,"Level30":221.17,"Level31":149.92,"Level32":38.87,"Level33":65.17,"Level34":111.91,"Level35":-1.0,"Level36":-1.0,"Level37":-1.0,"Level38":-1.0,"Level39":-1.0,"Level40":-1.0,"Level41":-1.0,"Level42":-1.0,"Level43":-1.0,"Level44":-1.0,"Level45":-1.0,"Level46":-1.0,"Level47":-1.0,"Level48":-1.0,"Level49":-1.0,"Level50":-1.0,"Timestamp":"2023-06-30T16:53:12.0987106+00:00","ETag":{}}];
+			const DEBUG_DATA = [{"ApiVersion":0,"ClientVersion":9999.0,"PartitionKey":"","RowKey":"Median","Level0":10.11,"Level1":27.43,"Level2":21.83,"Level3":55.76,"Level4":27.52,"Level5":71.95,"Level6":137.44,"Level7":109.25,"Level8":141.46,"Level9":167.29,"Level10":224.66,"Level11":105.25,"Level12":296.0,"Level13":4.92,"Level14":12.77,"Level15":12.35,"Level16":20.02,"Level17":47.33,"Level18":52.1,"Level19":43.3,"Level20":43.64,"Level21":74.43,"Level22":8.22,"Level23":8.28,"Level24":14.28,"Level25":52.39,"Level26":63.5,"Level27":-1.0,"Level28":109.09,"Level29":104.25,"Level30":79.02,"Level31":149.92,"Level32":67.0,"Level33":65.17,"Level34":81.8,"Level35":12.59,"Level36":24.49,"Level37":31.85,"Level38":15.36,"Level39":32.75,"Level40":109.04,"Level41":14.54,"Level42":35.67,"Level43":10.38,"Level44":61.76,"Level45":-1.0,"Level46":-1.0,"Level47":-1.0,"Level48":-1.0,"Level49":-1.0,"Level50":-1.0,"Timestamp":null,"ETag":{}},{"ApiVersion":1,"ClientVersion":0.27,"PartitionKey":"World0","RowKey":"ABitter_iPhone_F149148C-8F45-47FC-9F6E-555A9579ACED","Level0":22.13,"Level1":-1.0,"Level2":-1.0,"Level3":-1.0,"Level4":-1.0,"Level5":-1.0,"Level6":-1.0,"Level7":-1.0,"Level8":-1.0,"Level9":-1.0,"Level10":-1.0,"Level11":-1.0,"Level12":-1.0,"Level13":4.74,"Level14":-1.0,"Level15":-1.0,"Level16":-1.0,"Level17":-1.0,"Level18":-1.0,"Level19":-1.0,"Level20":-1.0,"Level21":-1.0,"Level22":-1.0,"Level23":-1.0,"Level24":-1.0,"Level25":-1.0,"Level26":-1.0,"Level27":-1.0,"Level28":-1.0,"Level29":-1.0,"Level30":-1.0,"Level31":-1.0,"Level32":-1.0,"Level33":-1.0,"Level34":-1.0,"Level35":-1.0,"Level36":9.94,"Level37":-1.0,"Level38":10.98,"Level39":-1.0,"Level40":-1.0,"Level41":-1.0,"Level42":-1.0,"Level43":10.59,"Level44":-1.0,"Level45":-1.0,"Level46":-1.0,"Level47":-1.0,"Level48":-1.0,"Level49":-1.0,"Level50":-1.0,"Timestamp":"2023-09-10T03:55:54.1368861+00:00","ETag":{}},{"ApiVersion":1,"ClientVersion":0.27,"PartitionKey":"World0","RowKey":"DBitter_iPhone_F149148C-8F45-47FC-9F6E-555A9579ACED","Level0":12.84,"Level1":-1.0,"Level2":-1.0,"Level3":-1.0,"Level4":-1.0,"Level5":-1.0,"Level6":-1.0,"Level7":-1.0,"Level8":-1.0,"Level9":-1.0,"Level10":-1.0,"Level11":-1.0,"Level12":-1.0,"Level13":6.66,"Level14":-1.0,"Level15":18.07,"Level16":-1.0,"Level17":-1.0,"Level18":-1.0,"Level19":-1.0,"Level20":-1.0,"Level21":-1.0,"Level22":-1.0,"Level23":-1.0,"Level24":-1.0,"Level25":-1.0,"Level26":-1.0,"Level27":-1.0,"Level28":-1.0,"Level29":-1.0,"Level30":-1.0,"Level31":-1.0,"Level32":-1.0,"Level33":-1.0,"Level34":-1.0,"Level35":8.14,"Level36":49.17,"Level37":-1.0,"Level38":9.77,"Level39":46.08,"Level40":-1.0,"Level41":-1.0,"Level42":-1.0,"Level43":6.81,"Level44":-1.0,"Level45":-1.0,"Level46":-1.0,"Level47":-1.0,"Level48":-1.0,"Level49":-1.0,"Level50":-1.0,"Timestamp":"2023-09-10T03:53:50.4010452+00:00","ETag":{}},{"ApiVersion":1,"ClientVersion":0.25,"PartitionKey":"World0","RowKey":"Shields_iPhone_F149148C-8F45-47FC-9F6E-555A9579ACED","Level0":7.72,"Level1":24.09,"Level2":10.9,"Level3":75.86,"Level4":12.85,"Level5":-1.0,"Level6":203.68,"Level7":112.89,"Level8":-1.0,"Level9":-1.0,"Level10":-1.0,"Level11":-1.0,"Level12":-1.0,"Level13":2.72,"Level14":-1.0,"Level15":9.23,"Level16":14.93,"Level17":33.93,"Level18":42.34,"Level19":-1.0,"Level20":21.5,"Level21":-1.0,"Level22":10.93,"Level23":8.0,"Level24":-1.0,"Level25":52.99,"Level26":68.22,"Level27":-1.0,"Level28":142.89,"Level29":-1.0,"Level30":-1.0,"Level31":-1.0,"Level32":42.92,"Level33":-1.0,"Level34":59.01,"Level35":3.68,"Level36":8.03,"Level37":8.38,"Level38":5.69,"Level39":4.25,"Level40":46.75,"Level41":18.05,"Level42":19.39,"Level43":6.07,"Level44":61.76,"Level45":-1.0,"Level46":-1.0,"Level47":-1.0,"Level48":-1.0,"Level49":-1.0,"Level50":-1.0,"Timestamp":"2023-09-02T00:44:03.5757588+00:00","ETag":{}}];
 			populateTable(DEBUG_DATA);
 		}
 	}, []);
