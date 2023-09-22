@@ -259,7 +259,7 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 			return (BASE_COLUMN_INDEX + mappedIndex).toString();
 		}
 
-		if (false) {
+		if (true) {
 			// Get cloud data for all players
 			new HttpClient().get({
 				endpoint: "players/",
