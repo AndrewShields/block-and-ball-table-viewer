@@ -100,14 +100,7 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 				}
 
 				if (key === "PlayerId") {
-					columnDef.width = 250;
-					columnDef.valueFormatter = (params) => {
-						const split = params.value.split("_");
-						if (split.length < 2) {
-							return params.value;
-						}
-						return split.slice(0, 2).join("_");
-					};
+					columnDef.width = 500;
 				} else if (key === "Version") {
 					//
 				} else if (key.startsWith("Level")) {
