@@ -69,7 +69,7 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 				const levelInfos = playerLevelInfosHash[playerId];
 				const rowInfo: any = { // TODO Shields type IRowInfo
 					PlayerId: playerId,
-					Version: `${levelInfos[0].ApiVersion} / ${levelInfos[0].ClientVersion}`
+					Version: `${levelInfos[0].ApiVersion} / ${levelInfos[0].ClientVersion.toFixed(2)}`
 				};
 
 				for (const levelInfo of levelInfos) {
