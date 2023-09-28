@@ -21,3 +21,7 @@ th, td {
 td {
 	text-align: right;
 }
+
+.Median-row {
+	background: lightgray;
+}

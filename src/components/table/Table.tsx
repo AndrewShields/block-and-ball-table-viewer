@@ -64,6 +64,15 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 			let maxRowInfoKeyCount = -1;
 			let maxRowInfoIndex = -1;
 			const rowInfos: IRowInfo[] = [];
+
+			// Push median data now so it's at the top by default
+			const medianRowInfo: any = { // TODO Shields type IRowInfo
+				PlayerId: "Median-row", // This name is tied to custom CSS
+				Version: ""
+			};
+			rowInfos.push(medianRowInfo);
+
+			const rowInfoOfAllLevelInfosForMedianData: any = {};
 			const playerIds = Object.keys(playerLevelInfosHash);
 			for (const playerId of playerIds) {
 				const levelInfos = playerLevelInfosHash[playerId];
@@ -74,7 +83,17 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 
 				for (const levelInfo of levelInfos) {
 					const levelId = levelInfo.PartitionKey;
-					rowInfo[`Level${levelId}`] = levelInfo.BestCompletionTimeSeconds;
+					const levelKey = `Level${levelId}`;
+					rowInfo[levelKey] = levelInfo.BestCompletionTimeSeconds;
+
+					// Populate median info
+					if (rowInfoOfAllLevelInfosForMedianData[levelKey] === undefined) {
+						rowInfoOfAllLevelInfosForMedianData[levelKey] = [];
+					}
+
+					if (levelInfo.BestCompletionTimeSeconds > 0) {
+						rowInfoOfAllLevelInfosForMedianData[levelKey].push(levelInfo.BestCompletionTimeSeconds);
+					}
 				}
 
 				const rowInfoKeyCount = Object.keys(rowInfo).length;
@@ -86,14 +105,26 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 				rowInfos.push(rowInfo);
 			}
 
+			// Generate median row
+			const rowInfoKeys = Object.keys(rowInfos[maxRowInfoIndex]);
+			for (const key of rowInfoKeys) {
+				if (!Array.isArray(rowInfoOfAllLevelInfosForMedianData[key])) {
+					continue;
+				}
+
+				const levelInfos = rowInfoOfAllLevelInfosForMedianData[key];
+				const medianBestCompletionTime = getMedian(levelInfos);
+
+				medianRowInfo[key] = medianBestCompletionTime;
+			}
+
 			// Populate rows
 			const _rows: IRowInfo[] = rowInfos;
 			SetRows(_rows);
 
 			// Populate columns
 			const _columns: GridColDef[] = [];
-			const rowInfoKeys = Object.keys(rowInfos[maxRowInfoIndex]);
-			for (let key of rowInfoKeys) {
+			for (const key of rowInfoKeys) {
 				const columnDef: GridColDef = {
 					field: key,
 					headerName: key
@@ -215,6 +246,20 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 			return (BASE_COLUMN_INDEX + mappedIndex).toString();
 		}
 
+		function getMedian(numbers: number[]): number {
+			const sortedNumbers = Array.from(numbers).sort((a, b) => a - b);
+			const middleIndex = Math.floor(sortedNumbers.length / 2);
+
+			let medianValue: number;
+			if (sortedNumbers.length % 2 === 0) {
+				medianValue = (sortedNumbers[middleIndex - 1] + sortedNumbers[middleIndex]) / 2;
+			} else {
+				medianValue = sortedNumbers[middleIndex];
+			}
+
+			return Math.round(medianValue * 100) / 100;
+		}
+
 		if (true) {
 			// Get cloud data for all players
 			new HttpClient().get({
@@ -243,12 +288,13 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 					initialState={{
 						pagination: {
 							paginationModel: {
-								pageSize: 25,
+								pageSize: 50,
 							},
 						},
 					}}
 					checkboxSelection
 					disableRowSelectionOnClick
+					getRowClassName={(params) => `${params.row.PlayerId}`} // "Median-row" gets custom skin
 				/>
 			</Box>
 		</div>
