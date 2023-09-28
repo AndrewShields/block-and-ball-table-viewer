@@ -133,8 +133,9 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 				if (key === "PlayerId") {
 					columnDef.width = 500;
 				} else if (key === "Version") {
-					//
+					columnDef.width = 125;
 				} else if (key.startsWith("Level")) {
+					columnDef.width = 125;
 					columnDef.type = "number";
 					columnDef.valueFormatter = (params) => {
 						if (params.value === -1) {
@@ -260,7 +261,7 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 			return Math.round(medianValue * 100) / 100;
 		}
 
-		if (true) {
+		if (false) {
 			// Get cloud data for all players
 			new HttpClient().get({
 				endpoint: "players/",
