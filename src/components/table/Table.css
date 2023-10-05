@@ -1,27 +1,9 @@
-.table-flex-container {
-	display: flex;
-	overflow: auto;
-	height: 100vh;
-}
-
-.table-block-container {
-	display: block;
-}
-
-table {
-	border: 1px solid gray;
-	font-family: monospace;
-}
-
-th, td {
-	padding: 10px;
-	border: 1px solid gray;
-}
-
-td {
-	text-align: right;
-}
-
 .Median-row {
 	background: lightgray;
+}
+
+.show-hide-checkbox {
+	display: inline-flex;
+    align-items: center;
+	padding: 10px;
 }
