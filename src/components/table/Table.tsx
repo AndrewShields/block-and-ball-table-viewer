@@ -280,7 +280,7 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 	}, []);
 
 	return (
-		<div style={{ display: "flex", justifyContent: "center", height: "100%", padding: "10px" }}>
+		<div style={{ display: "flex", justifyContent: "center", height: "calc(100%-50px)", padding: "10px" }}>
 			<Box sx={{ minWidth: "400px" }}>
 				<DataGrid
 					rows={rows}
