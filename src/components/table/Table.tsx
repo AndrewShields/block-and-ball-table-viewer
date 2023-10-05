@@ -314,7 +314,7 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 			return Math.round(medianValue * 100) / 100;*/
 		}
 
-		if (false) {
+		if (true) {
 			// Get cloud data for all players
 			new HttpClient().get({
 				endpoint: "players/",
