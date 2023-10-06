@@ -148,7 +148,7 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 	const [medianRowInfo, setMedianRowInfo] = React.useState<IRowInfo>();
 
 	useEffect(() => {
-		if (false) {
+		if (true) {
 			// Get cloud data for all players
 			new HttpClient().get({
 				endpoint: "players/",
@@ -251,16 +251,17 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 					headerName: key
 				}
 
+				const smallColumnWidth = 175;
 				if (key === "PlayerId") {
 					columnDef.width = 500;
 				} else if (key === "Version") {
-					columnDef.width = 125;
+					columnDef.width = smallColumnWidth;
 				} else if (key.endsWith("_BestTime") || key.endsWith("_FirstTime")) {
 					if ((!showBestTime && key.endsWith("_BestTime")) || (!showFirstTime && key.endsWith("_FirstTime"))) {
 						continue;
 					}
 
-					columnDef.width = 175;
+					columnDef.width = smallColumnWidth;
 					columnDef.type = "number";
 					columnDef.valueFormatter = (params) => {
 						const timeSeconds: number = params.value;
@@ -271,7 +272,7 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 						continue;
 					}
 
-					columnDef.width = 175;
+					columnDef.width = smallColumnWidth;
 					columnDef.type = "number";
 					columnDef.valueFormatter = (params) => {
 						const count: number = params.value;
