@@ -1,9 +1,24 @@
-.Median-row {
-	background: lightgray;
-}
-
 .show-hide-checkbox {
 	display: inline-flex;
     align-items: center;
-	padding: 10px;
+	padding: 5px;
+	margin: 5px;
+	outline: 1px solid gray;
+	background: #EEE;
+}
+
+.Median-row {
+	background: #DDD;
+}
+
+.equal-to-median {
+	background: #DDD;
+}
+
+.better-than-median {
+	background: #DFD;
+}
+
+.worse-than-median {
+	background: #FDD;
 }
