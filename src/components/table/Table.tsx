@@ -148,7 +148,7 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 	const [medianRowInfo, setMedianRowInfo] = React.useState<IRowInfo>();
 
 	useEffect(() => {
-		if (true) {
+		if (false) {
 			// Get cloud data for all players
 			new HttpClient().get({
 				endpoint: "players/",
@@ -260,7 +260,7 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 						continue;
 					}
 
-					columnDef.width = 125;
+					columnDef.width = 175;
 					columnDef.type = "number";
 					columnDef.valueFormatter = (params) => {
 						const timeSeconds: number = params.value;
@@ -271,7 +271,7 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 						continue;
 					}
 
-					columnDef.width = 125;
+					columnDef.width = 175;
 					columnDef.type = "number";
 					columnDef.valueFormatter = (params) => {
 						const count: number = params.value;
