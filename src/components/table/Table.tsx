@@ -175,8 +175,10 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 
 			// Combine data for each player
 			const playerLevelInfosHash: { [id: string]: ILevelInfo[] } = {};
-
 			for (const levelInfo of rawLevelInfos) {
+				// Overwrite the playerId here so sorting works correctly
+				levelInfo.RowKey = getPlayerId(levelInfo.RowKey);
+
 				const playerId = levelInfo.RowKey;
 				if (!showAndrewShields && playerId.startsWith("AndrewShields")) {
 					continue;
@@ -192,17 +194,18 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 			const rowInfos: IRowInfo[] = [];
 
 			// Push median data now so it's at the top by default
-			const medianRowInfo: any = { // TODO Shields type IRowInfo
+			const medianRowInfo: any = {
 				PlayerId: "Median-row", // This name is tied to custom CSS
 				Version: ""
 			};
 			rowInfos.push(medianRowInfo);
 
+			// Populate row infos (including median)
 			const rowInfoOfAllLevelInfosForMedianData: any = {};
 			const playerIds = Object.keys(playerLevelInfosHash);
 			for (const playerId of playerIds) {
 				const levelInfos = playerLevelInfosHash[playerId];
-				const rowInfo: any = { // TODO Shields type IRowInfo
+				const rowInfo: any = {
 					PlayerId: playerId,
 					Version: `${levelInfos[0].ApiVersion} / ${levelInfos[0].ClientVersion.toFixed(2)}`
 				};
@@ -259,9 +262,6 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 				const smallColumnWidth = 175;
 				if (key === "PlayerId") {
 					columnDef.width = 500;
-					columnDef.valueFormatter = (params) => {
-						return getPlayerId(params.value);
-					};
 				} else if (key === "Version") {
 					columnDef.width = smallColumnWidth;
 				} else if (key.endsWith("_BestTime") || key.endsWith("_FirstTime")) {
