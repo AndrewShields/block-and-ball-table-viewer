@@ -135,6 +135,7 @@ interface ILevelInfo {
 }
 
 export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) => {
+	const [showAndrewShields, setShowAndrewShields] = React.useState<boolean>(true);
 	const [showBestTime, setShowBestTime] = React.useState<boolean>(true);
 	const [showFirstTime, setShowFirstTime] = React.useState<boolean>(false);
 	const [showStars, setShowStars] = React.useState<boolean>(false);
@@ -177,6 +178,10 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 
 			for (const levelInfo of rawLevelInfos) {
 				const playerId = levelInfo.RowKey;
+				if (!showAndrewShields && playerId.startsWith("AndrewShields")) {
+					continue;
+				}
+
 				if (playerLevelInfosHash[playerId] === undefined) {
 					playerLevelInfosHash[playerId] = [];
 				}
@@ -291,6 +296,16 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 			setColumns(_columns);
 		}
 
+		function accumulateMedianData(rowInfoOfAllLevelInfosForMedianData: any, key: string, value: number): void {
+			if (rowInfoOfAllLevelInfosForMedianData[key] === undefined) {
+				rowInfoOfAllLevelInfosForMedianData[key] = [];
+			}
+
+			if (value > 0) {
+				rowInfoOfAllLevelInfosForMedianData[key].push(value);
+			}
+		}
+
 		function getPlayerId(playerId: string): string {
 			if (playerId.toString().startsWith(":")) {
 				const splitPlayerId = playerId.split(":");
@@ -308,21 +323,11 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 
 				const playerName = dictPlayerHashToPlayerName[playerHash];
 				if (playerName !== undefined) {
-					return [`(${playerName})`, playerHash, playerVersion].join(":");
+					return [`${playerName}__`, playerHash, playerVersion].join(":");
 				}
 			}
 
 			return playerId;
-		}
-
-		function accumulateMedianData(rowInfoOfAllLevelInfosForMedianData: any, key: string, value: number): void {
-			if (rowInfoOfAllLevelInfosForMedianData[key] === undefined) {
-				rowInfoOfAllLevelInfosForMedianData[key] = [];
-			}
-
-			if (value > 0) {
-				rowInfoOfAllLevelInfosForMedianData[key].push(value);
-			}
 		}
 
 		function getTimeSecondsString(timeSeconds: number): string {
@@ -395,7 +400,11 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 		if (rawLevelInfos !== undefined) {
 			populateTable();
 		}
-	}, [ rawLevelInfos, showBestTime, showFirstTime, showStars, showAttempts, showCompletions ]);
+	}, [ rawLevelInfos, showAndrewShields, showBestTime, showFirstTime, showStars, showAttempts, showCompletions ]);
+
+	function toggleShowAndrewShields() {
+		setShowAndrewShields(!showAndrewShields);
+	}
 
 	function toggleShowBestTime() {
 		setShowBestTime(!showBestTime);
@@ -420,6 +429,10 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 	return (
 		<div style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "calc(100%-50px)", padding: "10px" }}>
 			<div style={{ fontFamily: "monospace" }}>
+			<	label className="show-hide-checkbox">
+					<input type="checkbox" checked={showAndrewShields} onChange={toggleShowAndrewShields} />
+					Show AndrewShields
+				</label>
 				<label className="show-hide-checkbox">
 					<input type="checkbox" checked={showBestTime} onChange={toggleShowBestTime} />
 					Show best time
