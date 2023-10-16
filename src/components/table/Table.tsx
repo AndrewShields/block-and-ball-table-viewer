@@ -318,7 +318,8 @@ export const Table: React.FunctionComponent<ITableProps> = (props: ITableProps) 
 					"6ee7d16d44a321a9aca794c8b81f642e": "AndrewShieldsPhone",
 					"2f89cbcd296eeb3da8e4edbb4f698b35": "AndrewShieldsPC",
 					"129cc7d12cdb6cb50e55be3706a385f9": "ErikaHarper",
-					"4c5edef0f8c5fc9aa01a74b21d3e0b86": "ErikaHarper"
+					"4c5edef0f8c5fc9aa01a74b21d3e0b86": "ErikaHarper",
+					"a3a0d89863bdfeaced9e24f9373dc8c3": "MikeRudy",
 				};
 
 				const playerName = dictPlayerHashToPlayerName[playerHash];
